@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>직원 소개</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: #f2f2f2;
+      color: #111111;
+    }
+    .page {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(0,31,255,0.14), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(0,255,242,0.16), transparent 22%);
+    }
+    .blur {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .blur.blue {
+      top: -90px;
+      left: -8%;
+      width: 240px;
+      height: 240px;
+      background: rgba(0, 31, 255, 0.12);
+    }
+    .blur.mint {
+      bottom: -20px;
+      right: -6%;
+      width: 240px;
+      height: 240px;
+      background: rgba(0, 255, 242, 0.16);
+    }
+    .container {
+      position: relative;
+      min-height: 100vh;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: flex;
+      align-items: center;
+    }
+    .card-wrap {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 18px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 28px;
+      padding: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      backdrop-filter: blur(12px);
+    }
+    .profile-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      padding: 22px;
+      color: white;
+      background: #0b1220;
+      box-shadow: 0 24px 70px rgba(0,31,255,0.16);
+    }
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, #001fff, #00fff2);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      font-size: 11px;
+      letter-spacing: 0.10em;
+      color: rgba(255,255,255,0.78);
+    }
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #00fff2;
+    }
+    .photo-box {
+      margin-top: 16px;
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 16px 30px rgba(0,0,0,0.22);
+    }
+    .photo-box img {
+      display: block;
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+    .info-list {
+      margin-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+    .info-item {
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.08);
+    }
+    .info-label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.62);
+    }
+    .info-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.94);
+      word-break: break-word;
+      line-height: 1.45;
+    }
+    .content-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      border-radius: 22px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,255,0.96));
+      padding: 22px;
+    }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: rgba(0,0,0,0.45);
+    }
+    h1 {
+      margin: 10px 0 0;
+      font-size: 30px;
+      line-height: 1.15;
+    }
+    .gradient-text {
+      margin-left: 6px;
+      background: linear-gradient(to right, #001fff, #00fff2);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .comment-section {
+      margin-top: 16px;
+      padding: 2px 0 0;
+    }
+    .comment-content {
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(0,0,0,0.76);
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+    .keyword-box {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .keyword-title {
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .keyword-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .keyword-tag {
+      padding: 7px 12px;
+      border-radius: 9999px;
+      background: rgba(0,31,255,0.06);
+      border: 1px solid rgba(0,31,255,0.10);
+      color: #001fff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    @media (max-width: 1000px) {
+      .card-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 900px) {
+      .container { padding: 18px 14px; }
+      .card-wrap { padding: 16px; gap: 14px; }
+      .profile-card, .content-card { padding: 18px; }
+      h1 { font-size: 26px; }
+      .photo-box img { height: 200px; }
+      .comment-content { font-size: 14px; line-height: 1.7; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // ============================================
+    // 여기만 수정하면 됩니다
+    // ============================================
+    const 직원정보 = {
+      이름: "김동규",
+      이메일: "dongky.kim@soslab.co",
+      전화번호: "010-4034-9989",
+      팀: "Core개발팀",
+      직책: "Head",
+      근무지역: "광주",
+      사진: "https://raw.githubusercontent.com/bonobonojoo-create/Bono/main/bono.png",
+      코멘트: `안녕하세요.
+
+- Roles and Responsibilities (R&R)
+    - Core Team Lead
+    - 양산개발
+        - ML-X Rev.2
+            - SDP Logic 안정화
+        - ML-XM
+            - SDP Logic 개선 및 최적화
+            - Calibration 공정 개선
+    - 선행개발
+        - ML-A
+            - SDP Logic 개발 및 최적화
+        - ML-U
+            - ADAPS SPAD 테스트 및 분석
+            (vs Sony SPAD)
+        - GL5
+            - 생산 공정 Logic 개발
+    - 과제
+        - 미정
+
+예시)
+- 어떤 일을 담당하는지
+- 협업 시 어떤 도움을 줄 수 있는지
+- 관심 분야가 무엇인지
+- 동료들에게 전하고 싶은 한마디`,
+      키워드: ["다이어트", "홍길동", "해달"]
+    };
+
+    const 화면문구 = {
+      상단라벨: "프로필",
+      오른쪽제목앞: "소개와",
+      오른쪽제목강조: "코멘트"
+    };
+  </script>
+
+  <div class="page">
+    <div class="blur blue"></div>
+    <div class="blur mint"></div>
+
+    <main class="container">
+      <section class="card-wrap">
+        <div class="profile-card">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span id="topLabel"></span>
+          </div>
+
+          <div class="photo-box">
+            <img id="profileImage" alt="프로필 사진" />
+          </div>
+
+          <div class="info-list">
+            <div class="info-item">
+              <span class="info-label">이름</span>
+              <span class="info-value" id="name"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Email</span>
+              <span class="info-value" id="email"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Phone Number</span>
+              <span class="info-value" id="phone"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Team</span>
+              <span class="info-value" id="team"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Position</span>
+              <span class="info-value" id="position"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">근무지역</span>
+              <span class="info-value" id="location"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <div class="section-label">COMMENTS</div>
+          <h1>
+            <span id="titleFront"></span>
+            <span class="gradient-text" id="titleAccent"></span>
+          </h1>
+
+          <div class="comment-section">
+            <div class="comment-content" id="commentText"></div>
+          </div>
+
+          <div class="keyword-box">
+            <p class="keyword-title">키워드</p>
+            <div class="keyword-tags" id="keywordTags"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById("topLabel").textContent = 화면문구.상단라벨;
+    document.getElementById("profileImage").src = 직원정보.사진;
+    document.getElementById("name").textContent = 직원정보.이름;
+    document.getElementById("email").textContent = 직원정보.이메일;
+    document.getElementById("phone").textContent = 직원정보.전화번호;
+    document.getElementById("team").textContent = 직원정보.팀;
+    document.getElementById("position").textContent = 직원정보.직책;
+    document.getElementById("location").textContent = 직원정보.근무지역;
+    document.getElementById("titleFront").textContent = 화면문구.오른쪽제목앞;
+    document.getElementById("titleAccent").textContent = 화면문구.오른쪽제목강조;
+    document.getElementById("commentText").textContent = 직원정보.코멘트;
+
+    const keywordTags = document.getElementById("keywordTags");
+    직원정보.키워드.forEach((키워드) => {
+      const span = document.createElement("span");
+      span.className = "keyword-tag";
+      span.textContent = 키워드;
+      keywordTags.appendChild(span);
+    });
+  </script>
+</body>
+</html>
