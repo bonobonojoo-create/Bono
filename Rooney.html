@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>직원 소개</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: #f2f2f2;
+      color: #111111;
+    }
+    .page {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(0,31,255,0.16), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(0,255,242,0.18), transparent 24%);
+    }
+    .blur {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(70px);
+      pointer-events: none;
+    }
+    .blur.blue {
+      top: -80px;
+      left: -8%;
+      width: 290px;
+      height: 290px;
+      background: rgba(0, 31, 255, 0.15);
+    }
+    .blur.mint {
+      bottom: 0;
+      right: -6%;
+      width: 290px;
+      height: 290px;
+      background: rgba(0, 255, 242, 0.20);
+    }
+    .container {
+      position: relative;
+      min-height: 100vh;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: flex;
+      align-items: center;
+    }
+    .card-wrap {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 32px;
+      padding: 32px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.08);
+      backdrop-filter: blur(14px);
+    }
+    .profile-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      padding: 32px;
+      color: white;
+      background: #0b1220;
+      box-shadow: 0 30px 100px rgba(0,31,255,0.18);
+    }
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, #001fff, #00fff2);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.7);
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00fff2;
+    }
+    .photo-box {
+      margin-top: 28px;
+      overflow: hidden;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+    .photo-box img {
+      display: block;
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+    h1 {
+      margin: 28px 0 0;
+      font-size: 42px;
+      line-height: 1.1;
+    }
+    .role {
+      margin-top: 10px;
+      font-size: 17px;
+      font-weight: 600;
+      color: #00fff2;
+    }
+    .en-name {
+      margin-top: 6px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.72);
+    }
+    .dept {
+      margin-top: 6px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+    }
+    .intro {
+      margin-top: 24px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.78);
+    }
+    .tags {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      padding: 8px 12px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.10);
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.88);
+    }
+    .content-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 28px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #f8f8f8;
+      padding: 32px;
+    }
+    .section-label {
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: rgba(0,0,0,0.45);
+    }
+    h2 {
+      margin: 14px 0 0;
+      font-size: 34px;
+      line-height: 1.25;
+    }
+    .gradient-text {
+      margin-left: 8px;
+      background: linear-gradient(to right, #001fff, #00fff2);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .desc {
+      margin-top: 24px;
+      font-size: 17px;
+      line-height: 1.85;
+      color: rgba(0,0,0,0.65);
+    }
+    .color-grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .color-card {
+      border-radius: 24px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: white;
+      padding: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    }
+    .color-label {
+      font-size: 14px;
+      color: rgba(0,0,0,0.45);
+    }
+    .color-value {
+      margin-top: 8px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .button {
+      margin-top: 28px;
+      width: fit-content;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 9999px;
+      background: #000000;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    .button:hover {
+      background: #001fff;
+    }
+    @media (max-width: 900px) {
+      .card-wrap {
+        grid-template-columns: 1fr;
+        padding: 20px;
+      }
+      .profile-card, .content-card {
+        padding: 24px;
+      }
+      h1 { font-size: 34px; }
+      h2 { font-size: 28px; }
+      .photo-box img { height: 280px; }
+      .color-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // =============================
+    // 여기만 수정하면 내용이 바뀝니다
+    // =============================
+    const 직원정보 = {
+      이름: "최준호",
+      영문이름: "jun ho choi",
+      직급: "Embedded System 개발부
+Head",
+      소속: "SOSLAB 디바이스사업본부",
+      소개문구:
+        "보스베이비",
+      태그: ["디바이스", "프로덕트", "혁신"],
+      사진:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80",
+    };
+
+    const 사이트문구 = {
+      프로필라벨: "STAFF PROFILE",
+      메인제목앞: "미래를 설계하는",
+      메인제목강조: "한 사람의 이야기",
+      설명문:
+        "직원 한 명을 깔끔하고 세련되게 소개하는 페이지입니다. 사진, 이름, 직급, 소속, 소개 문구만 바꿔도 바로 사용할 수 있도록 단순하게 구성했습니다.",
+      버튼문구: "프로필 더보기",
+    };
+  </script>
+
+  <div class="page">
+    <div class="blur blue"></div>
+    <div class="blur mint"></div>
+
+    <main class="container">
+      <section class="card-wrap">
+        <div class="profile-card">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span id="profileLabel"></span>
+          </div>
+
+          <div class="photo-box">
+            <img id="profileImage" alt="" />
+          </div>
+
+          <h1 id="name"></h1>
+          <div class="role" id="role"></div>
+          <div class="en-name" id="englishName"></div>
+          <div class="dept" id="department"></div>
+
+          <div class="intro" id="intro"></div>
+          <div class="tags" id="tags"></div>
+        </div>
+
+        <div class="content-card">
+          <div class="section-label">INTRODUCTION</div>
+          <h2>
+            <span id="titleFront"></span>
+            <span class="gradient-text" id="titleAccent"></span>
+          </h2>
+
+          <div class="desc" id="description"></div>
+
+          <div class="color-grid">
+            <div class="color-card">
+              <div class="color-label">메인 컬러</div>
+              <div class="color-value" style="color:#001fff;">#001fff</div>
+            </div>
+            <div class="color-card">
+              <div class="color-label">포인트 컬러</div>
+              <div class="color-value" style="color:#00cfc5;">#00fff2</div>
+            </div>
+          </div>
+
+          <button class="button" id="mainButton" type="button"></button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById("profileLabel").textContent = 사이트문구.프로필라벨;
+    document.getElementById("profileImage").src = 직원정보.사진;
+    document.getElementById("profileImage").alt = 직원정보.이름;
+    document.getElementById("name").textContent = 직원정보.이름;
+    document.getElementById("role").textContent = 직원정보.직급;
+    document.getElementById("englishName").textContent = 직원정보.영문이름;
+    document.getElementById("department").textContent = 직원정보.소속;
+    document.getElementById("intro").textContent = 직원정보.소개문구;
+    document.getElementById("titleFront").textContent = 사이트문구.메인제목앞;
+    document.getElementById("titleAccent").textContent = 사이트문구.메인제목강조;
+    document.getElementById("description").textContent = 사이트문구.설명문;
+    document.getElementById("mainButton").textContent = 사이트문구.버튼문구;
+
+    const tagsContainer = document.getElementById("tags");
+    직원정보.태그.forEach((태그) => {
+      const span = document.createElement("span");
+      span.className = "tag";
+      span.textContent = 태그;
+      tagsContainer.appendChild(span);
+    });
+  </script>
+</body>
+</html>
