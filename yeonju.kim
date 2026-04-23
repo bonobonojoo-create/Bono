@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>직원 소개</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: #f2f2f2;
+      color: #111111;
+    }
+    .page {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(0,31,255,0.16), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(0,255,242,0.18), transparent 24%);
+    }
+    .blur {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(70px);
+      pointer-events: none;
+    }
+    .blur.blue {
+      top: -80px;
+      left: -8%;
+      width: 290px;
+      height: 290px;
+      background: rgba(0, 31, 255, 0.15);
+    }
+    .blur.mint {
+      bottom: 0;
+      right: -6%;
+      width: 290px;
+      height: 290px;
+      background: rgba(0, 255, 242, 0.20);
+    }
+    .container {
+      position: relative;
+      min-height: 100vh;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: flex;
+      align-items: center;
+    }
+    .card-wrap {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 24px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 32px;
+      padding: 32px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.08);
+      backdrop-filter: blur(14px);
+    }
+    .profile-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      padding: 32px;
+      color: white;
+      background: #0b1220;
+      box-shadow: 0 30px 100px rgba(0,31,255,0.18);
+    }
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, #001fff, #00fff2);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.05);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.78);
+    }
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00fff2;
+    }
+    .photo-box {
+      margin-top: 24px;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+    .photo-box img {
+      display: block;
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+    .info-list {
+      margin-top: 24px;
+      display: grid;
+      gap: 12px;
+    }
+    .info-item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.08);
+    }
+    .info-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.62);
+    }
+    .info-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.94);
+      word-break: break-word;
+    }
+    .content-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      border-radius: 28px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,255,0.96));
+      padding: 32px;
+    }
+    .section-label {
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      color: rgba(0,0,0,0.45);
+    }
+    h1 {
+      margin: 14px 0 0;
+      font-size: 38px;
+      line-height: 1.2;
+    }
+    .gradient-text {
+      margin-left: 8px;
+      background: linear-gradient(to right, #001fff, #00fff2);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .comment-section {
+      margin-top: 24px;
+      padding: 6px 2px 0;
+    }
+    .comment-content {
+      font-size: 17px;
+      line-height: 2;
+      color: rgba(0,0,0,0.76);
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+    .keyword-box {
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .keyword-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .keyword-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .keyword-tag {
+      padding: 9px 14px;
+      border-radius: 9999px;
+      background: rgba(0,31,255,0.06);
+      border: 1px solid rgba(0,31,255,0.10);
+      color: #001fff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    @media (max-width: 900px) {
+      .card-wrap {
+        grid-template-columns: 1fr;
+        padding: 20px;
+      }
+      .profile-card, .content-card {
+        padding: 24px;
+      }
+      h1 { font-size: 32px; }
+      .photo-box img { height: 280px; }
+      .comment-content { font-size: 16px; line-height: 1.9; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // ============================================
+    // 여기만 수정하면 됩니다
+    // ============================================
+    const 직원정보 = {
+      이름: "김연주",
+      이메일: "yeonju.kim@example.com",
+      전화번호: "010-1234-5678",
+      팀: "디바이스사업본부",
+      직책: "프로덕트 담당",
+      근무지역: "성남",
+      사진: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=1200&q=80",
+      코멘트: `안녕하세요.
+
+이 공간에는 자유롭게 소개글, 코멘트, 메모, 자기소개, 담당 업무 설명 등을 넣으면 됩니다.
+
+예시)
+- 어떤 일을 담당하는지
+- 협업 시 어떤 도움을 줄 수 있는지
+- 관심 분야가 무엇인지
+- 동료들에게 전하고 싶은 한마디`,
+      키워드: ["다이어트", "홍길동", "해달"]
+    };
+
+    const 화면문구 = {
+      상단라벨: "직원 프로필",
+      오른쪽제목앞: "소개와",
+      오른쪽제목강조: "코멘트"
+    };
+  </script>
+
+  <div class="page">
+    <div class="blur blue"></div>
+    <div class="blur mint"></div>
+
+    <main class="container">
+      <section class="card-wrap">
+        <div class="profile-card">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span id="topLabel"></span>
+          </div>
+
+          <div class="photo-box">
+            <img id="profileImage" alt="프로필 사진" />
+          </div>
+
+          <div class="info-list">
+            <div class="info-item">
+              <span class="info-label">이름</span>
+              <span class="info-value" id="name"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Email</span>
+              <span class="info-value" id="email"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Phone Number</span>
+              <span class="info-value" id="phone"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Team</span>
+              <span class="info-value" id="team"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Position</span>
+              <span class="info-value" id="position"></span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">근무지역</span>
+              <span class="info-value" id="location"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-card">
+          <div class="section-label">COMMENTS</div>
+          <h1>
+            <span id="titleFront"></span>
+            <span class="gradient-text" id="titleAccent"></span>
+          </h1>
+
+          <div class="comment-section">
+            <div class="comment-content" id="commentText"></div>
+          </div>
+
+          <div class="keyword-box">
+            <p class="keyword-title">키워드</p>
+            <div class="keyword-tags" id="keywordTags"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById("topLabel").textContent = 화면문구.상단라벨;
+    document.getElementById("profileImage").src = 직원정보.사진;
+    document.getElementById("name").textContent = 직원정보.이름;
+    document.getElementById("email").textContent = 직원정보.이메일;
+    document.getElementById("phone").textContent = 직원정보.전화번호;
+    document.getElementById("team").textContent = 직원정보.팀;
+    document.getElementById("position").textContent = 직원정보.직책;
+    document.getElementById("location").textContent = 직원정보.근무지역;
+    document.getElementById("titleFront").textContent = 화면문구.오른쪽제목앞;
+    document.getElementById("titleAccent").textContent = 화면문구.오른쪽제목강조;
+    document.getElementById("commentText").textContent = 직원정보.코멘트;
+
+    const keywordTags = document.getElementById("keywordTags");
+    직원정보.키워드.forEach((키워드) => {
+      const span = document.createElement("span");
+      span.className = "keyword-tag";
+      span.textContent = 키워드;
+      keywordTags.appendChild(span);
+    });
+  </script>
+</body>
+</html>
