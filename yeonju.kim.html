@@ -43,7 +43,7 @@
       z-index: 0;
     }
 
-    /* 부드러운 밝은 오버레이 */
+    /* 은은한 오버레이 */
     .page::after {
       content: "";
       position: absolute;
@@ -57,7 +57,7 @@
 
     .container {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       min-height: 100vh;
       max-width: 1120px;
       margin: 0 auto;
@@ -191,6 +191,7 @@
       background: rgba(255,255,255,0.88);
       padding: 24px;
       min-height: 540px;
+      z-index: 3;
     }
 
     .section-label {
@@ -260,11 +261,11 @@
       font-weight: 600;
     }
 
-    /* 캐릭터 영역 */
+    /* 사이트 전체 화면을 떠다니는 캐릭터 */
     .floating-characters {
-      position: absolute;
+      position: fixed;
       inset: 0;
-      z-index: 3;
+      z-index: 2;
       pointer-events: none;
       overflow: hidden;
     }
@@ -296,44 +297,45 @@
       50% { transform: translateY(-6px); }
     }
 
-    /* 캐릭터 위치: 서로 떨어지게 */
-    .c1 { top: 24px; left: 18px; animation: move1 16s ease-in-out infinite alternate; }
-    .c2 { top: 44px; left: 255px; animation: move2 18s ease-in-out infinite alternate; }
-    .c3 { top: 22px; right: 70px; animation: move3 17s ease-in-out infinite alternate; }
-    .c4 { top: 210px; right: 22px; animation: move4 19s ease-in-out infinite alternate; }
-    .c5 { top: 345px; left: 36px; animation: move5 18s ease-in-out infinite alternate; }
-    .c6 { top: 372px; right: 225px; animation: move6 20s ease-in-out infinite alternate; }
+    /* 전체 화면에 고르게 분포 */
+    .c1 { top: 8%; left: 6%; animation: pageMove1 24s ease-in-out infinite alternate; }
+    .c2 { top: 10%; left: 42%; animation: pageMove2 26s ease-in-out infinite alternate; }
+    .c3 { top: 8%; right: 8%; animation: pageMove3 25s ease-in-out infinite alternate; }
+    .c4 { top: 58%; left: 8%; animation: pageMove4 27s ease-in-out infinite alternate; }
+    .c5 { top: 68%; right: 10%; animation: pageMove5 23s ease-in-out infinite alternate; }
+    .c6 { top: 78%; left: 48%; animation: pageMove6 28s ease-in-out infinite alternate; }
 
-    @keyframes move1 {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(84px, 26px); }
+    @keyframes pageMove1 {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(220px, 140px); }
     }
 
-    @keyframes move2 {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(74px, 36px); }
+    @keyframes pageMove2 {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(180px, 180px); }
     }
 
-    @keyframes move3 {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-82px, 34px); }
+    @keyframes pageMove3 {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(-220px, 170px); }
     }
 
-    @keyframes move4 {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-70px, 24px); }
+    @keyframes pageMove4 {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(260px, -160px); }
     }
 
-    @keyframes move5 {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(88px, -28px); }
+    @keyframes pageMove5 {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(-240px, -180px); }
     }
 
-    @keyframes move6 {
-      0% { transform: translate(0, 0) rotate(-90deg); }
-      100% { transform: translate(-76px, -34px) rotate(-90deg); }
+    @keyframes pageMove6 {
+      0%   { transform: translate(0, 0) rotate(-90deg); }
+      100% { transform: translate(-180px, -260px) rotate(-90deg); }
     }
 
+    /* char6만 90도 회전 */
     .c6 img {
       transform: rotate(-90deg);
     }
@@ -419,9 +421,10 @@
   </script>
 
   <div class="page">
+    <div class="floating-characters" id="floatingCharacters"></div>
+
     <main class="container">
       <section class="card-wrap">
-        <!-- 왼쪽 -->
         <div class="profile-card">
           <div class="badge">
             <span class="badge-dot"></span>
@@ -460,7 +463,6 @@
           </div>
         </div>
 
-        <!-- 오른쪽 -->
         <div class="content-card">
           <div class="section-label">COMMENTS</div>
 
@@ -469,16 +471,6 @@
             <span class="gradient-text" id="titleAccent"></span>
           </h1>
 
-          <!-- 움직이는 캐릭터 -->
-          <div class="page">
-  <div class="floating-characters" id="floatingCharacters"></div>
-
-  <main class="container">
-    <section class="card-wrap">
-      ...
-    </section>
-  </main>
-</div>
           <div class="comment-section">
             <div class="comment-content" id="commentText"></div>
           </div>
