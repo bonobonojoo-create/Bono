@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>직원 소개</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -21,9 +19,24 @@
       position: relative;
       overflow: hidden;
       background:
-        radial-gradient(circle at top left, rgba(0,31,255,0.14), transparent 30%),
-        radial-gradient(circle at 85% 18%, rgba(0,255,242,0.18), transparent 24%),
+        radial-gradient(circle at top left, rgba(0,31,255,0.12), transparent 30%),
+        radial-gradient(circle at 85% 18%, rgba(0,255,242,0.12), transparent 24%),
         linear-gradient(180deg, #eef3ff 0%, #f7fbff 100%);
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: -8%;
+      background-image: url("char2.png");
+      background-repeat: no-repeat;
+      background-position: center 28%;
+      background-size: 950px auto;
+      filter: blur(14px);
+      opacity: 0.13;
+      transform: scale(1.08);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .blur {
@@ -39,7 +52,7 @@
       left: -6%;
       width: 260px;
       height: 260px;
-      background: rgba(0, 31, 255, 0.16);
+      background: rgba(0, 31, 255, 0.13);
     }
 
     .blur.mint {
@@ -47,7 +60,7 @@
       right: -5%;
       width: 260px;
       height: 260px;
-      background: rgba(0, 255, 242, 0.18);
+      background: rgba(0, 255, 242, 0.14);
     }
 
     .container {
@@ -67,8 +80,8 @@
       display: grid;
       grid-template-columns: 0.9fr 1.1fr;
       gap: 18px;
-      background: rgba(255,255,255,0.74);
-      border: 1px solid rgba(255,255,255,0.65);
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(255,255,255,0.68);
       border-radius: 30px;
       padding: 20px;
       box-shadow: 0 20px 60px rgba(0, 31, 255, 0.08);
@@ -81,14 +94,13 @@
       border-radius: 24px;
       padding: 22px;
       color: #f8fbff;
-      background:
-        linear-gradient(
-          135deg,
-          #001fff 0%,
-          rgba(0,31,255,0.92) 34%,
-          rgba(0,140,255,0.86) 68%,
-          rgba(0,255,242,0.78) 100%
-        );
+      background: linear-gradient(
+        135deg,
+        #001fff 0%,
+        rgba(0,31,255,0.92) 34%,
+        rgba(0,140,255,0.86) 68%,
+        rgba(0,255,242,0.78) 100%
+      );
       border: 1px solid rgba(255,255,255,0.20);
       box-shadow:
         0 20px 48px rgba(0, 31, 255, 0.22),
@@ -222,7 +234,6 @@
       color: #001fff;
     }
 
-    /* 오른쪽 카드 안에서 떠다니는 캐릭터 */
     .floating-characters {
       position: absolute;
       inset: 0;
@@ -244,8 +255,7 @@
       height: 100%;
       object-fit: contain;
       display: block;
-      transition: transform 0.25s ease, filter 0.25s ease;
-      filter: drop-shadow(0 6px 10px rgba(0,31,255,0.18));
+      transition: transform 0.25s ease;
       animation: bob 3.6s ease-in-out infinite;
       transform-origin: center center;
       user-select: none;
@@ -254,7 +264,6 @@
 
     .floating-char:hover img {
       transform: scale(1.3);
-      filter: drop-shadow(0 10px 18px rgba(0,31,255,0.24));
     }
 
     @keyframes bob {
@@ -262,42 +271,45 @@
       50% { transform: translateY(-6px) rotate(2deg); }
     }
 
-    /* 6개 전부 보이도록, 소개글 앞쪽에서 움직이도록 */
-    .c1 { top: 74px; left: 16px; animation: move1 14s ease-in-out infinite alternate; }
-    .c2 { top: 78px; right: 18px; animation: move2 16s ease-in-out infinite alternate; }
-    .c3 { top: 150px; left: 58px; animation: move3 15s ease-in-out infinite alternate; }
-    .c4 { top: 162px; right: 68px; animation: move4 17s ease-in-out infinite alternate; }
-    .c5 { top: 255px; left: 20px; animation: move5 18s ease-in-out infinite alternate; }
-    .c6 { top: 270px; right: 24px; animation: move6 16s ease-in-out infinite alternate; }
+    .c1 { top: 78px; left: 14px; animation: move1 15s ease-in-out infinite alternate; }
+    .c2 { top: 82px; left: 220px; animation: move2 17s ease-in-out infinite alternate; }
+    .c3 { top: 92px; right: 150px; animation: move3 16s ease-in-out infinite alternate; }
+    .c4 { top: 176px; right: 18px; animation: move4 18s ease-in-out infinite alternate; }
+    .c5 { top: 278px; left: 48px; animation: move5 17s ease-in-out infinite alternate; }
+    .c6 { top: 300px; right: 210px; animation: move6 19s ease-in-out infinite alternate; }
 
     @keyframes move1 {
       0% { transform: translate(0, 0); }
-      100% { transform: translate(120px, 38px); }
+      100% { transform: translate(70px, 26px); }
     }
 
     @keyframes move2 {
       0% { transform: translate(0, 0); }
-      100% { transform: translate(-112px, 48px); }
+      100% { transform: translate(58px, 34px); }
     }
 
     @keyframes move3 {
       0% { transform: translate(0, 0); }
-      100% { transform: translate(145px, 24px); }
+      100% { transform: translate(-68px, 30px); }
     }
 
     @keyframes move4 {
       0% { transform: translate(0, 0); }
-      100% { transform: translate(-132px, 34px); }
+      100% { transform: translate(-54px, 24px); }
     }
 
     @keyframes move5 {
       0% { transform: translate(0, 0); }
-      100% { transform: translate(155px, -42px); }
+      100% { transform: translate(74px, -22px); }
     }
 
     @keyframes move6 {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(-145px, -36px); }
+      0% { transform: translate(0, 0) rotate(-90deg); }
+      100% { transform: translate(-62px, -28px) rotate(-90deg); }
+    }
+
+    .c6 img {
+      transform: rotate(-90deg);
     }
 
     .comment-section {
@@ -353,37 +365,13 @@
     }
 
     @media (max-width: 900px) {
-      .container {
-        padding: 18px 14px;
-      }
-
-      .card-wrap {
-        padding: 16px;
-        gap: 14px;
-      }
-
-      .profile-card,
-      .content-card {
-        padding: 18px;
-      }
-
-      h1 {
-        font-size: 26px;
-      }
-
-      .photo-box img {
-        height: 200px;
-      }
-
-      .comment-content {
-        font-size: 14px;
-        line-height: 1.7;
-      }
-
-      .floating-char {
-        width: 38px;
-        height: 38px;
-      }
+      .container { padding: 18px 14px; }
+      .card-wrap { padding: 16px; gap: 14px; }
+      .profile-card, .content-card { padding: 18px; }
+      h1 { font-size: 26px; }
+      .photo-box img { height: 200px; }
+      .comment-content { font-size: 14px; line-height: 1.7; }
+      .floating-char { width: 38px; height: 38px; }
     }
   </style>
 </head>
