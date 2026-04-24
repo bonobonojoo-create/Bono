@@ -237,13 +237,13 @@
       font-weight: 600;
     }
 
-    /* 사이트 전체 화면을 떠다니는 캐릭터 */
+    /* 사이트 전체 화면 최상단을 떠다니는 캐릭터 */
     .floating-characters {
       position: fixed;
       inset: 0;
-      z-index: 2;
+      z-index: 9999;
       pointer-events: none;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .floating-char {
@@ -251,6 +251,7 @@
       width: 48px;
       height: 48px;
       pointer-events: auto;
+      z-index: 10000;
     }
 
     .floating-char img {
@@ -258,14 +259,21 @@
       height: 100%;
       object-fit: contain;
       display: block;
-      transition: transform 0.25s ease;
+      transition: transform 0.35s ease;
       animation: bob 3.8s ease-in-out infinite;
       user-select: none;
       -webkit-user-drag: none;
+      position: relative;
+      z-index: 10001;
+      transform-origin: center center;
+    }
+
+    .floating-char:hover {
+      z-index: 10002;
     }
 
     .floating-char:hover img {
-      transform: scale(1.32);
+      transform: scale(10);
     }
 
     @keyframes bob {
@@ -311,7 +319,6 @@
       100% { transform: translate(-180px, -260px) rotate(-90deg); }
     }
 
-    /* char6만 90도 회전 */
     .c6 img {
       transform: rotate(-90deg);
     }
