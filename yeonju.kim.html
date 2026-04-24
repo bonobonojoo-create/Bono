@@ -250,6 +250,7 @@
       align-items: center;
       justify-content: center;
       overflow: visible;
+      flex: 0 0 auto;
     }
 
     .character-item img {
@@ -257,6 +258,12 @@
       height: 100%;
       object-fit: contain;
       display: block;
+    }
+
+    /* char6 전용: 왼쪽으로 90도 회전 + 크기 보정 */
+    .character-item.char6 img {
+      transform: rotate(-90deg) scale(1.2);
+      transform-origin: center center;
     }
 
     .hidden {
@@ -301,6 +308,9 @@
 </head>
 <body>
   <script>
+    /* ============================================
+       여기만 수정하면 됩니다
+       ============================================ */
     const 직원정보 = {
       이름: "김연주",
       이메일: "yeonju.kim@soslab.co",
@@ -321,7 +331,7 @@
 잘 부탁드립니다 :)`,
       키워드: ["다이어트", "홍길동", "해달"],
 
-      /* 캐릭터 보이기/숨기기 */
+      /* 캐릭터 보이기 / 숨기기 */
       캐릭터보이기: true,
 
       /* 넣고 싶은 캐릭터만 파일명 넣기 */
@@ -431,6 +441,10 @@
       직원정보.캐릭터목록.forEach((이미지경로) => {
         const item = document.createElement("div");
         item.className = "character-item";
+
+        if (이미지경로 === "char6.png") {
+          item.classList.add("char6");
+        }
 
         const img = document.createElement("img");
         img.src = 이미지경로;
