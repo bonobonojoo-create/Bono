@@ -5,216 +5,440 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>직원 소개</title>
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-      background: #f2f2f2;
+      background: #eef3ff;
       color: #111111;
     }
+
     .page {
       min-height: 100vh;
       position: relative;
       overflow: hidden;
       background:
-        radial-gradient(circle at top left, rgba(0,31,255,0.14), transparent 28%),
-        radial-gradient(circle at 80% 20%, rgba(0,255,242,0.16), transparent 22%);
+        radial-gradient(circle at top left, rgba(0,31,255,0.14), transparent 30%),
+        radial-gradient(circle at 85% 18%, rgba(0,255,242,0.18), transparent 24%),
+        linear-gradient(180deg, #eef3ff 0%, #f7fbff 100%);
     }
+
     .blur {
       position: absolute;
       border-radius: 9999px;
-      filter: blur(60px);
+      filter: blur(70px);
       pointer-events: none;
+      z-index: 0;
     }
+
     .blur.blue {
-      top: -90px;
-      left: -8%;
-      width: 240px;
-      height: 240px;
-      background: rgba(0, 31, 255, 0.12);
+      top: -80px;
+      left: -6%;
+      width: 260px;
+      height: 260px;
+      background: rgba(0, 31, 255, 0.16);
     }
+
     .blur.mint {
-      bottom: -20px;
-      right: -6%;
-      width: 240px;
-      height: 240px;
-      background: rgba(0, 255, 242, 0.16);
+      bottom: -30px;
+      right: -5%;
+      width: 260px;
+      height: 260px;
+      background: rgba(0, 255, 242, 0.18);
     }
+
+    /* 화면 전체를 떠다니는 캐릭터 */
+    .floating-characters {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .floating-char {
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      opacity: 0.96;
+      pointer-events: auto;
+      filter: drop-shadow(0 6px 12px rgba(0, 31, 255, 0.12));
+    }
+
+    .floating-char img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      animation: bob 3.6s ease-in-out infinite;
+      transition: transform 0.25s ease, filter 0.25s ease;
+      transform-origin: center center;
+    }
+
+    .floating-char:hover img {
+      transform: scale(1.35);
+      filter: drop-shadow(0 10px 18px rgba(0, 31, 255, 0.22));
+    }
+
+    .c1 {
+      top: 6%;
+      left: 8%;
+      animation: wander1 26s ease-in-out infinite alternate;
+    }
+
+    .c2 {
+      top: 10%;
+      right: 10%;
+      animation: wander2 28s ease-in-out infinite alternate;
+    }
+
+    .c3 {
+      top: 68%;
+      left: 7%;
+      animation: wander3 30s ease-in-out infinite alternate;
+    }
+
+    .c4 {
+      top: 70%;
+      right: 8%;
+      animation: wander4 27s ease-in-out infinite alternate;
+    }
+
+    .c5 {
+      top: 14%;
+      left: 46%;
+      animation: wander5 32s ease-in-out infinite alternate;
+    }
+
+    .c6 {
+      top: 80%;
+      left: 55%;
+      animation: wander6 29s ease-in-out infinite alternate;
+    }
+
+    .c1 img { animation-delay: 0s; }
+    .c2 img { animation-delay: 0.6s; }
+    .c3 img { animation-delay: 1.2s; }
+    .c4 img { animation-delay: 1.8s; }
+    .c5 img { animation-delay: 0.9s; }
+    .c6 img { animation-delay: 1.5s; }
+
+    @keyframes bob {
+      0%, 100% {
+        transform: translateY(0) rotate(-2deg) scale(1);
+      }
+      50% {
+        transform: translateY(-8px) rotate(2deg) scale(1.04);
+      }
+    }
+
+    @keyframes wander1 {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(80px, 30px); }
+      50%  { transform: translate(140px, 100px); }
+      75%  { transform: translate(50px, 170px); }
+      100% { transform: translate(170px, 220px); }
+    }
+
+    @keyframes wander2 {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(-90px, 40px); }
+      50%  { transform: translate(-160px, 120px); }
+      75%  { transform: translate(-40px, 180px); }
+      100% { transform: translate(-180px, 240px); }
+    }
+
+    @keyframes wander3 {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(110px, -50px); }
+      50%  { transform: translate(180px, -120px); }
+      75%  { transform: translate(70px, -200px); }
+      100% { transform: translate(200px, -250px); }
+    }
+
+    @keyframes wander4 {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(-100px, -40px); }
+      50%  { transform: translate(-180px, -120px); }
+      75%  { transform: translate(-60px, -190px); }
+      100% { transform: translate(-210px, -240px); }
+    }
+
+    @keyframes wander5 {
+      0%   { transform: translate(0, 0); }
+      20%  { transform: translate(120px, 30px); }
+      40%  { transform: translate(70px, 130px); }
+      60%  { transform: translate(-60px, 180px); }
+      80%  { transform: translate(-120px, 80px); }
+      100% { transform: translate(40px, 220px); }
+    }
+
+    @keyframes wander6 {
+      0%   { transform: translate(0, 0); }
+      20%  { transform: translate(-100px, -20px); }
+      40%  { transform: translate(-180px, -100px); }
+      60%  { transform: translate(-60px, -180px); }
+      80%  { transform: translate(70px, -120px); }
+      100% { transform: translate(-40px, -250px); }
+    }
+
     .container {
       position: relative;
+      z-index: 2;
       min-height: 100vh;
-      max-width: 1100px;
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 40px 24px;
+      padding: 32px 22px;
       display: flex;
       align-items: center;
+      justify-content: center;
     }
+
     .card-wrap {
       width: 100%;
       display: grid;
       grid-template-columns: 0.9fr 1.1fr;
       gap: 18px;
       background: rgba(255,255,255,0.74);
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.65);
+      border-radius: 30px;
       padding: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0, 31, 255, 0.08);
+      backdrop-filter: blur(16px);
     }
+
     .profile-card {
       position: relative;
       overflow: hidden;
-      border-radius: 22px;
+      border-radius: 24px;
       padding: 22px;
-      color: white;
-      background: #0b1220;
-      box-shadow: 0 24px 70px rgba(0,31,255,0.16);
+      color: #f8fbff;
+      background:
+        linear-gradient(
+          135deg,
+          #001fff 0%,
+          rgba(0,31,255,0.92) 34%,
+          rgba(0,140,255,0.86) 68%,
+          rgba(0,255,242,0.78) 100%
+        );
+      border: 1px solid rgba(255,255,255,0.20);
+      box-shadow:
+        0 20px 48px rgba(0, 31, 255, 0.22),
+        inset 0 1px 0 rgba(255,255,255,0.14);
     }
+
     .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 18%, rgba(255,255,255,0.22), transparent 24%),
+        radial-gradient(circle at 82% 16%, rgba(255,255,255,0.14), transparent 18%),
+        linear-gradient(125deg, rgba(255,255,255,0.10), transparent 42%);
+      pointer-events: none;
+    }
+
+    .profile-card::after {
       content: "";
       position: absolute;
       inset: 0 auto auto 0;
       width: 100%;
       height: 3px;
-      background: linear-gradient(to right, #001fff, #00fff2);
+      background: linear-gradient(to right, rgba(255,255,255,0.9), #00fff2, rgba(255,255,255,0.9));
     }
+
     .badge {
+      position: relative;
+      z-index: 1;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 7px 12px;
       border-radius: 9999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(255,255,255,0.10);
       font-size: 11px;
       letter-spacing: 0.10em;
-      color: rgba(255,255,255,0.78);
+      color: rgba(255,255,255,0.88);
+      backdrop-filter: blur(8px);
     }
+
     .badge-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
       background: #00fff2;
+      box-shadow: 0 0 10px rgba(0,255,242,0.7);
     }
+
     .photo-box {
+      position: relative;
+      z-index: 1;
       margin-top: 16px;
       overflow: hidden;
       border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 16px 30px rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 12px 28px rgba(0, 20, 90, 0.20);
     }
+
     .photo-box img {
       display: block;
       width: 100%;
       height: 220px;
       object-fit: cover;
     }
+
     .info-list {
+      position: relative;
+      z-index: 1;
       margin-top: 16px;
       display: grid;
       gap: 8px;
     }
+
     .info-item {
       padding: 10px 12px;
       border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.10);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
     }
+
     .info-label {
       display: block;
       margin-bottom: 4px;
       font-size: 11px;
-      color: rgba(255,255,255,0.62);
+      color: rgba(232, 244, 255, 0.72);
     }
+
     .info-value {
       font-size: 14px;
       font-weight: 600;
-      color: rgba(255,255,255,0.94);
+      color: #ffffff;
       word-break: break-word;
       line-height: 1.45;
     }
+
     .content-card {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      border-radius: 22px;
-      border: 1px solid rgba(0,0,0,0.08);
-      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,255,0.96));
+      border-radius: 24px;
+      border: 1px solid rgba(0,31,255,0.08);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(246,250,255,0.96));
       padding: 22px;
     }
+
     .section-label {
       font-size: 11px;
       letter-spacing: 0.14em;
       color: rgba(0,0,0,0.45);
     }
+
     h1 {
       margin: 10px 0 0;
       font-size: 30px;
       line-height: 1.15;
+      color: #001fff;
     }
+
     .gradient-text {
       margin-left: 6px;
-      background: linear-gradient(to right, #001fff, #00fff2);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      color: #001fff;
     }
+
     .comment-section {
-      margin-top: 16px;
+      margin-top: 18px;
       padding: 2px 0 0;
     }
+
     .comment-content {
       font-size: 15px;
-      line-height: 1.75;
-      color: rgba(0,0,0,0.76);
+      line-height: 1.8;
+      color: rgba(15,23,42,0.78);
       white-space: pre-line;
       word-break: keep-all;
     }
+
     .keyword-box {
       margin-top: 18px;
       padding-top: 16px;
-      border-top: 1px solid rgba(0,0,0,0.08);
+      border-top: 1px solid rgba(0,31,255,0.08);
     }
+
     .keyword-title {
       margin: 0 0 10px;
       font-size: 16px;
       font-weight: 700;
+      color: #0f172a;
     }
+
     .keyword-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
+
     .keyword-tag {
       padding: 7px 12px;
       border-radius: 9999px;
-      background: rgba(0,31,255,0.06);
+      background: linear-gradient(135deg, rgba(0,31,255,0.08), rgba(0,255,242,0.10));
       border: 1px solid rgba(0,31,255,0.10);
       color: #001fff;
       font-size: 13px;
       font-weight: 600;
     }
+
     @media (max-width: 1000px) {
       .card-wrap {
         grid-template-columns: 1fr;
       }
     }
+
     @media (max-width: 900px) {
-      .container { padding: 18px 14px; }
-      .card-wrap { padding: 16px; gap: 14px; }
-      .profile-card, .content-card { padding: 18px; }
-      h1 { font-size: 26px; }
-      .photo-box img { height: 200px; }
-      .comment-content { font-size: 14px; line-height: 1.7; }
+      .container {
+        padding: 18px 14px;
+      }
+
+      .card-wrap {
+        padding: 16px;
+        gap: 14px;
+      }
+
+      .profile-card,
+      .content-card {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .photo-box img {
+        height: 200px;
+      }
+
+      .comment-content {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .floating-char {
+        width: 40px;
+        height: 40px;
+      }
     }
   </style>
 </head>
 <body>
   <script>
-    // ============================================
-    // 여기만 수정하면 됩니다
-    // ============================================
+    /* ============================================
+       여기만 수정하면 됩니다
+       ============================================ */
+
     const 직원정보 = {
       이름: "김연주",
       이메일: "yeonju.kim@soslab.co",
@@ -222,16 +446,17 @@
       팀: "Validation개발팀",
       직책: "프로덕트 담당",
       근무지역: "판교",
-      사진: "https://raw.githubusercontent.com/bonobonojoo-create/Bono/main/bono.png",
+      사진: "bono.png",
       코멘트: `안녕하세요.
 
-보노입니다.지금은 연습중입니다.
+저는 김연주입니다.
+현재 Validation개발팀에서 업무를 담당하고 있습니다.
 
-예시)
-- 어떤 일을 담당하는지
-- 협업 시 어떤 도움을 줄 수 있는지
-- 관심 분야가 무엇인지
-- 동료들에게 전하고 싶은 한마디`,
+협업할 때는 정확하고 보기 쉽게 정리하는 것을 중요하게 생각합니다.
+새로운 아이디어를 함께 이야기하고, 필요한 내용을 빠르게 공유하는 것을 좋아합니다.
+
+앞으로도 즐겁게 소통하면서 좋은 결과를 만들어가고 싶습니다.
+잘 부탁드립니다 :)`,
       키워드: ["다이어트", "홍길동", "해달"]
     };
 
@@ -240,11 +465,23 @@
       오른쪽제목앞: "소개와",
       오른쪽제목강조: "코멘트"
     };
+
+    /* 업로드한 캐릭터 파일명 */
+    const 캐릭터목록 = [
+      "sl.png",
+      "ml.png",
+      "gl5.png",
+      "ml1.png",
+      "gl3.png",
+      "ml2.png"
+    ];
   </script>
 
   <div class="page">
     <div class="blur blue"></div>
     <div class="blur mint"></div>
+
+    <div class="floating-characters" id="floatingCharacters"></div>
 
     <main class="container">
       <section class="card-wrap">
@@ -288,6 +525,7 @@
 
         <div class="content-card">
           <div class="section-label">COMMENTS</div>
+
           <h1>
             <span id="titleFront"></span>
             <span class="gradient-text" id="titleAccent"></span>
@@ -325,6 +563,20 @@
       span.className = "keyword-tag";
       span.textContent = 키워드;
       keywordTags.appendChild(span);
+    });
+
+    const floatingCharacters = document.getElementById("floatingCharacters");
+
+    캐릭터목록.forEach((이미지경로, index) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = `floating-char c${index + 1}`;
+
+      const img = document.createElement("img");
+      img.src = 이미지경로;
+      img.alt = `캐릭터 ${index + 1}`;
+
+      wrapper.appendChild(img);
+      floatingCharacters.appendChild(wrapper);
     });
   </script>
 </body>
